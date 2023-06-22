@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import multer from "multer";
 import helmet from "helmet";
 import morgan from "morgan"
+import {register} from "./controllers/auth.js"
+
 // Properly set the paths when we configure directories later on(path/fileURLToPath) 
 import path from "path";
 import {fileURLToPath} from "url";
@@ -69,6 +71,37 @@ const storage = multer.diskStorage({
 // anytime we need to upload a file 
 // use the UPLOAD variable
 const upload = multer({storage});
+
+
+
+/* ROUTES WITH FILES */
+/*
+    =========================================================================
+        route : /auth/register 
+            - that is the route we are going to hit 
+	========================================================================
+        middleware : upload.single("picture")
+            - going to upload our picture locally into the public/assests folder
+            - inbetween route and register 
+	=========================================================================
+        register 
+            - the function is called a CONTROLLER 
+            - the logic that we'll make of saving our user into the data base and 
+            all the functionallity to register
+            - we are going to have to 
+                - import [ register ] from "./controllers/auth.js"
+	=========================================================================
+        In 'Server' directory
+        - mkdir 
+            - controllers
+                - touch auth.js
+        - we do this because this is how you typically organize code 
+            - use subfolders
+	=========================================================================
+*/
+
+app.post("/auth/register", upload.single("picture"), register)
+
 
 /* MONGOOSE SETUP */
 
