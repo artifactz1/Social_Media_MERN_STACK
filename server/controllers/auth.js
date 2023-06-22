@@ -16,17 +16,17 @@ import User from "../models/User.js";
 
 /* REGISTER USER */
 
-/* Creating a regsiter function 
-    - => {} 
-        - is a call back function 
-    - async 
-        - because we are going to be calling mongoose db
-    - req 
-        - provide us with the request body we get from the front end
-    - res
-        - response is what we are going to be sending back to the front end
+    /* Creating a regsiter function 
+        - => {} 
+            - is a call back function 
+        - async 
+            - because we are going to be calling mongoose db
+        - req 
+            - provide us with the request body we get from the front end
+        - res
+            - response is what we are going to be sending back to the front end
 
- */
+    */
 export const register = async (req, res) => {
 
     try {
@@ -58,7 +58,7 @@ export const register = async (req, res) => {
             picturePath, 
             friends, 
             location,
-            occupatio,
+            occupation,
             viewedProfile: Math.floor(Math.random() * 10000),
             impressions: Math.floor(Math.random() * 10000)
         })
@@ -78,3 +78,43 @@ export const register = async (req, res) => {
 
     }
 } 
+
+/* LOGGING IN */
+
+export const login = async (req, res) => {
+    try{
+        const {email, password} = req.body;
+
+        // We are using mongoose (findOne) to 
+        // try to find the one with a specified email
+        const user = await User.findOne({ email: email});
+        if(!user) return res.status(400).json({ msg: "User does not exist. "});
+
+        /*  using bcrypt to compare the password that was sent from the user (front end)
+            to the user.password that has been saved inside the data base
+            - both are using the same salt compare to see if they have the same hash
+         */
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch) return res.status(400).json({ msg: "Invalid credentials. "});
+
+        // the 4 lines above are checking if the email and password are a match!
+        
+        // have to go to .env file and add JWT_SECRET 
+        // prcoess.env.JWT_SECRET is the secret string
+        // - this could be any type of string as long as it's guessable
+        // - make sure string is a secure one you can keep
+        // NOTE:
+        //  - If you working for a company, they'll be hiring a 3 party authentication
+        //    or company that is good with security which is way more recure than this 
+        //  - THIS IS A BASIC WAY OF HOW AUTHENTICATION WORKS
+
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+        // delete the password so that it doesn't get sent back to the front end (saftey)
+        delete user.password;
+        res.status(200).json({ token, user});
+
+    }catch(err) {
+        res.status(500).json({ error: err.message });
+    }
+}

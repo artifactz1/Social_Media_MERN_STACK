@@ -10,6 +10,11 @@ import {register} from "./controllers/auth.js"
 
 // Properly set the paths when we configure directories later on(path/fileURLToPath) 
 import path from "path";
+
+// route folder where we have the paths and routes for every type of feature 
+// in this case auth.js feature
+import authRoutes from "./routes/auth.js";
+
 import {fileURLToPath} from "url";
 
 /* CONFIGURATIONS */
@@ -72,8 +77,6 @@ const storage = multer.diskStorage({
 // use the UPLOAD variable
 const upload = multer({storage});
 
-
-
 /* ROUTES WITH FILES */
 /*
     =========================================================================
@@ -101,6 +104,11 @@ const upload = multer({storage});
 */
 
 app.post("/auth/register", upload.single("picture"), register)
+
+/* ROUTES */
+
+// This will set up routes and keep our files organized 
+app.use("/auth", authRoutes);
 
 
 /* MONGOOSE SETUP */
