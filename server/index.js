@@ -7,6 +7,7 @@ import multer from "multer";
 import helmet from "helmet";
 import morgan from "morgan"
 import {register} from "./controllers/auth.js"
+import {createPost} from ".controllers/post.js"
 
 // Properly set the paths when we configure directories later on(path/fileURLToPath) 
 import path from "path";
@@ -132,11 +133,11 @@ app.post("/auth/register", upload.single("picture"), register)
                 - this is the property that we are setting 
                 - so if you set picture and that's where the image is actually located 
                   in the http call, then that line will grab it and upload it into the local 
+                - you can change the name to whatever you want just have to make sure it alligns
+                  with your front end and back end 
 */
 
-app.post("/posts", verifyToken, upload.single("picture"),)
-
-// teset
+app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 /*
     ==========================================================================
