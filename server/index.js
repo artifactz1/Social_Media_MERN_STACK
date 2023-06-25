@@ -14,10 +14,19 @@ import path from "path";
 // route folder where we have the paths and routes for every type of feature 
 // in this case auth.js feature
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
+import postRoutes from "./routes/post.js";
 
 import {fileURLToPath} from "url";
+import { verify } from "crypto";
+import { verifyToken } from "./middleware/auth.js";
 
-/* CONFIGURATIONS */
+
+/* 
+    ==========================================================================
+    CONFIGURATIONS 
+    ========================================================================== 
+*/
 
 /* includes all the middleware configurations aswell as package configurations
  basically that runs in between different request, basically functions that run into different things */
@@ -57,7 +66,11 @@ app.use(cors());
 
 app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
 
-/* FILE STORAGE */
+/* 
+    ==========================================================================
+    FILE STORAGE 
+    ==========================================================================
+*/
 
 // All of this is on the github repo and copied from multer
 // this is how you can save your files
@@ -77,7 +90,12 @@ const storage = multer.diskStorage({
 // use the UPLOAD variable
 const upload = multer({storage});
 
-/* ROUTES WITH FILES */
+/* 
+    ==========================================================================
+    ROUTES WITH FILES 
+    ========================================================================== 
+*/
+
 /*
     =========================================================================
         route : /auth/register 
@@ -105,13 +123,37 @@ const upload = multer({storage});
 
 app.post("/auth/register", upload.single("picture"), register)
 
-/* ROUTES */
+/*
+    Note : 
+        upload.single("picture")
+        - when we send from the front end the "picture" image 
+            - "picture"
+                - will grab the picture property
+                - this is the property that we are setting 
+                - so if you set picture and that's where the image is actually located 
+                  in the http call, then that line will grab it and upload it into the local 
+*/
+
+app.post("/posts", verifyToken, upload.single("picture"),)
+
+
+/*
+    ==========================================================================
+    ROUTES 
+    ==========================================================================
+*/
 
 // This will set up routes and keep our files organized 
 app.use("/auth", authRoutes);
 
+app.use("/users", userRoutes);
+app.use("/post", postRoutes);
 
-/* MONGOOSE SETUP */
+/* 
+    ==========================================================================
+    MONGOOSE SETUP 
+    ==========================================================================
+*/
 
 // 6001 is just in case it doesn't connect to original port (3001)
 const PORT = process.env.PORT || 6001;
