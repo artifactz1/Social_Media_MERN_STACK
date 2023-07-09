@@ -38,6 +38,8 @@ const NavBar =() => {
     // he'll show us later how to do it not only for box
     return <FlexBetween padding="1rem 6%" backgroundColor={alt}>
         <FlexBetween gap="1.75rem">
+
+            {/* Title Logo */}
             <Typography 
                 fontWeight="bold" 
                 fontSize="clamp(1rem, 2rem, 2.25rem)" 
@@ -52,6 +54,9 @@ const NavBar =() => {
                 >
                 Sociopedia
             </Typography>
+
+            {/* Search Bar */}
+            {/* The search bar will only be shown in desktop view */}
             {isNonMobileScreens && (
                 <FlexBetween backgroundColor={neutralLight} borderRadius="9px" gap="3rem" padding="0.1rem 1.5rem">
                     <InputBase placeholder="Search..." />
@@ -64,6 +69,8 @@ const NavBar =() => {
         {/* DESKTOP NAV */}
         {isNonMobileScreens ? (
             <FlexBetween gap="2rem">
+
+                {/* This is the button that changes from Dark or Light Mode */}
                 {/* this is the dispatch or action that the use will do to change the theme to dark or light mode */}
                 {/* we are using redux to flip the switch for the dark and light mode  */}
                 <IconButton onClick={() => dispatch(setMode())}>
@@ -77,9 +84,13 @@ const NavBar =() => {
                         )
                     }
                 </IconButton>
+
+                {/* Different Icons  */}
                 <Message sx={{ fontSize: "25px"}}/>
                 <Notifications sx={{ fontSize: "25px"}}/>
                 <Help sx={{ fontSize: "25px"}}/>
+
+                {/* This is the where the logout button and different user is     */}
                 <FormControl variant="standard" value={fullName}>
                     <Select 
                         value={fullName}
@@ -108,7 +119,10 @@ const NavBar =() => {
                 </FormControl>
                 
 
-            </FlexBetween>) : (
+            </FlexBetween>) : 
+           
+            // This is if is in mobile version it will turn into a hamburger icon and when on click it will open
+            (
             <IconButton
                 onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
             >
@@ -117,7 +131,7 @@ const NavBar =() => {
             )}
 
             {/* MOBILE NAV */}
-            {/* When you click the menu item it should open a box with icon in there */}
+            {/* When you click the menu item it should open a box with icons in there */}
             {
                 !isNonMobileScreens && isMobileMenuToggled && (
                     <Box 
@@ -182,7 +196,8 @@ const NavBar =() => {
                             </FormControl>
                         </FlexBetween>                        
                     </Box>
-            )}
+                )
+            }
     </FlexBetween>
 };
 
