@@ -30,7 +30,9 @@ const NavBar =() => {
     const alt = theme.palette.background.alt;
 
     // convenience variable
+    // got to fix this after 
     const fullName = '${user.firstName} ${user.lastName}';
+    // const fullName = `${user.firstName} ${user.lastName}`;
 
     // the padding = syntax is only for the box component in material UI
     // he'll show us later how to do it not only for box
@@ -130,13 +132,55 @@ const NavBar =() => {
                     >
                         {/* CLOSE ICON */}
                         <Box display="flex" justifyContent="flex-end">
-                            <IconButton>
-                                onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
+                            <IconButton onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}>
                                 <Close/>
                             </IconButton>
                         </Box>
                         {/* MENU ITEMS */}
-                        
+                        <FlexBetween display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap="3rem">
+                            {/* this is the dispatch or action that the use will do to change the theme to dark or light mode */}
+                            {/* we are using redux to flip the switch for the dark and light mode  */}
+                            <IconButton onClick={() => dispatch(setMode())} sx={{ fontSize: "25px"}}>
+                                {theme.palette.mode === "dark" ? 
+                                    (
+                                        <DarkMode sx={{ fontSize: "25px"}}/>
+                                    ) 
+                                    : 
+                                    (
+                                        <LightMode sx = {{color: dark, fontSize: "25px" }} />
+                                    )
+                                }
+                            </IconButton>
+                            <Message sx={{ fontSize: "25px"}}/>
+                            <Notifications sx={{ fontSize: "25px"}}/>
+                            <Help sx={{ fontSize: "25px"}}/>
+                            <FormControl variant="standard" value={fullName}>
+                                <Select 
+                                    value={fullName}
+                                    sx={{
+                                        backgroundColor: neutralLight,
+                                        width: "150px",
+                                        borderRadius: "0.25rem",
+                                        p: "0.25rem 1rem",
+                                        "& .MuiSvgIcon-root": {
+                                            pr: "0.25rem",
+                                            width: "3rem",
+                                        },
+                                        "& .MuiSelect-:focus": {
+                                            backgroundColor: neutralLight
+                                        }
+                                    }}
+                                    input={<InputBase/>}
+                                >
+                                    <MenuItem value={fullName}>
+                                        <Typography>
+                                            {fullName}
+                                        </Typography>
+                                    </MenuItem>
+                                    <MenuItem onClick={() => dispatch(setLogout())}> logout</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </FlexBetween>                        
                     </Box>
             )}
     </FlexBetween>
