@@ -1,4 +1,4 @@
-import express from "express"
+import express from "express";
 
 /* 
     controllers which we haven't created yet
@@ -6,11 +6,11 @@ import express from "express"
       concepts
 */
 import {
-    getUser,
-    getUserFriends, 
-    addRemoveFriend,
+  getUser,
+  getUserFriends,
+  addRemoveFriend,
 } from "../controllers/users.js";
-import { verifyToken } from "../middleware/auth";
+import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -32,11 +32,11 @@ const router = express.Router();
 
 /* READ */
 
-// This is how we do querey string from the front end 
-// the :id command will call the data base to find the id 
+// This is how we do querey string from the front end
+// the :id command will call the data base to find the id
 router.get("/:id", verifyToken, getUser);
 
-// Will get the user and grabs it friends 
+// Will get the user and grabs it friends
 router.get("/:id/friends", verifyToken, getUserFriends);
 
 /* UPDATE */

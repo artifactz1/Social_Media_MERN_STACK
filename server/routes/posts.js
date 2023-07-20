@@ -1,10 +1,10 @@
 import express from "express";
-import { getFeedPosts, getUserPosts, likePost } from "../controllers/post.js";
+import { getFeedPosts, getUserPosts, likePost } from "../controllers/posts.js";
 import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();
 
-/* READ */ 
+/* READ */
 
 /*
     grab the user feed when we are on the homepage 
@@ -21,7 +21,7 @@ router.get("/:userId/posts", verifyToken, getUserPosts);
 
 /* UPDATE */
 
-// will update the like on the post 
+// will update the like on the post
 router.patch("/:id/like", verifyToken, likePost);
 
-export default router; 
+export default router;

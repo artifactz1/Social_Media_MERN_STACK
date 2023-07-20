@@ -5,23 +5,22 @@ import cors from "cors";
 import dotenv from "dotenv";
 import multer from "multer";
 import helmet from "helmet";
-import morgan from "morgan"
-import {register} from "./controllers/auth.js"
-import {createPost} from ".controllers/post.js"
+import morgan from "morgan";
+import { register } from "./controllers/auth.js";
+import { createPost } from "./controllers/posts.js";
 
-// Properly set the paths when we configure directories later on(path/fileURLToPath) 
+// Properly set the paths when we configure directories later on(path/fileURLToPath)
 import path from "path";
 
-// route folder where we have the paths and routes for every type of feature 
+// route folder where we have the paths and routes for every type of feature
 // in this case auth.js feature
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
-import postRoutes from "./routes/post.js";
+import postRoutes from "./routes/posts.js";
 
-import {fileURLToPath} from "url";
+import { fileURLToPath } from "url";
 import { verify } from "crypto";
 import { verifyToken } from "./middleware/auth.js";
-
 
 /* 
     ==========================================================================
@@ -37,35 +36,35 @@ import { verifyToken } from "./middleware/auth.js";
 specifically when you use the moddules we made in index.js
 only when you use these types of modules
 
-*/ 
+*/
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// allow us to us dotenv files 
+// allow us to us dotenv files
 dotenv.config();
 
-// invoke express application 
+// invoke express application
 const app = express();
 
-// All these settings are online / website and you can see what these configurations can do 
+// All these settings are online / website and you can see what these configurations can do
 app.use(express.json());
-app.use(helmet.crossOriginResourcePolicy({policy: "cross-origin"}));
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
-app.use(bodyParser.json({limit: "30mb", extended:true}));
-app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
 // invoke cross-origin resource policy
 app.use(cors());
 
-// sets the directory of where we keep our assets, 
-// in this case it will be the images that we store 
+// sets the directory of where we keep our assets,
+// in this case it will be the images that we store
 // - going to be storing this locally
-// - but for real life production you would want to store it in an actual storage file directory 
+// - but for real life production you would want to store it in an actual storage file directory
 //   or cloud storage like s3
 //   gonna keep it simple
 
-app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
+app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 /* 
     ==========================================================================
@@ -78,18 +77,18 @@ app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
 // anytime someone uploads a file on to the website its going to be saved into
 // destination
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "public/assets");
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
+  destination: function (req, file, cb) {
+    cb(null, "public/assets");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
 });
 
 // help us save the image
-// anytime we need to upload a file 
+// anytime we need to upload a file
 // use the UPLOAD variable
-const upload = multer({storage});
+const upload = multer({ storage });
 
 /* 
     ==========================================================================
@@ -122,7 +121,7 @@ const upload = multer({storage});
 	=========================================================================
 */
 
-app.post("/auth/register", upload.single("picture"), register)
+app.post("/auth/register", upload.single("picture"), register);
 
 /*
     Note : 
@@ -145,7 +144,7 @@ app.post("/posts", verifyToken, upload.single("picture"), createPost);
     ==========================================================================
 */
 
-// This will set up routes and keep our files organized 
+// This will set up routes and keep our files organized
 app.use("/auth", authRoutes);
 
 app.use("/users", userRoutes);
@@ -159,9 +158,12 @@ app.use("/post", postRoutes);
 
 // 6001 is just in case it doesn't connect to original port (3001)
 const PORT = process.env.PORT || 6001;
-mongoose.connect(process.env.MONGO_URL, {
+mongoose
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-}).then(() => {
+  })
+  .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-}).catch((error) => console.log(`${error} did not connect`));
+  })
+  .catch((error) => console.log(`${error} did not connect`));
