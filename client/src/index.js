@@ -1,49 +1,47 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from './App';
+import App from "./App";
 import authReducer from "./state";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 
 // we can save all of the state in local state
-// everytime user closes browser / that information will still be stored loacally 
+// everytime user closes browser / that information will still be stored loacally
 // only way they can clear it is if they clear their cache
 import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
 
-const persistConfig = {key: "root", storage, version: 1};
+const persistConfig = { key: "root", storage, version: 1 };
 
 // this copied just looking at documentation online
 const persistedReducer = persistReducer(persistConfig, authReducer);
 const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) => 
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-        serializableCheck: {
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
     }),
 });
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}> 
-        <PersistGate loading={null} persistor={persistStore(store)}/>
-            <App />
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistStore(store)} />
+      <App />
     </Provider>
   </React.StrictMode>
 );
-
-
