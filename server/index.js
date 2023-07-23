@@ -8,6 +8,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
+import { users, posts } from "./data/index.js";
 
 // Properly set the paths when we configure directories later on(path/fileURLToPath)
 import path from "path";
@@ -21,6 +22,9 @@ import postRoutes from "./routes/posts.js";
 import { fileURLToPath } from "url";
 import { verify } from "crypto";
 import { verifyToken } from "./middleware/auth.js";
+
+import User from "./models/User.js";
+// import Post from "./models/Posts.js";
 
 /* 
     ==========================================================================
@@ -165,5 +169,8 @@ mongoose
   })
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+
+    // User.insertMany(users);
+    // Post.insertMany(posts);
   })
   .catch((error) => console.log(`${error} did not connect`));
