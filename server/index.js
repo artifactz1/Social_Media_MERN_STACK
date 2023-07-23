@@ -23,7 +23,7 @@ import { fileURLToPath } from "url";
 import { verify } from "crypto";
 import { verifyToken } from "./middleware/auth.js";
 
-import User from "./models/User.js";
+// import User from "./models/User.js";
 // import Post from "./models/Posts.js";
 
 /* 
