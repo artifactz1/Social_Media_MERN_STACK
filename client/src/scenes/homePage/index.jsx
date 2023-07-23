@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import NavBar from "scenes/navbar";
 import UserWidget from "scenes/widgets/UserWidget";
 import MyPostWidget from "scenes/widgets/MyPostWidget";
-// import PostsWidget from "scenes/widgets/PostsWidget";
+import PostsWidget from "scenes/widgets/PostsWidget";
 // import AdvertWidget from "scenes/widgets/AdvertWidget";
 // import FriendListWidget from "scenes/widgets/FriendListWidget";
 
@@ -33,7 +33,7 @@ const HomePage = () => {
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
           <MyPostWidget picturePath={picturePath} />
-          {/* <PostsWidget userId={_id} /> */}
+          <PostsWidget userId={_id} />
         </Box>
 
         {/* Friends List / Advertisment will only show for desktop */}

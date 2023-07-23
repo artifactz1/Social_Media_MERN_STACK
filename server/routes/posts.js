@@ -7,12 +7,12 @@ const router = express.Router();
 /* READ */
 
 /*
-    grab the user feed when we are on the homepage 
+    grab the user feed when we are on the homepage
     - the homepage is going to get everypost in the data base
-      and give you every single one 
+      and give you every single one
     - most companies use AI now to pick specific posts
     - this is just sending all the feeds
-    - we are keeing it simple 
+    - we are keeing it simple
 */
 router.get("/", verifyToken, getFeedPosts);
 
