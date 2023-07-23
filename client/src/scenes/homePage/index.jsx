@@ -1,5 +1,11 @@
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
+import { useSelector } from "react-redux";
 import NavBar from "scenes/navbar";
+import UserWidget from "scenes/widgets/UserWidget";
+import MyPostWidget from "scenes/widgets/MyPostWidget";
+import PostsWidget from "scenes/widgets/PostsWidget";
+import AdvertWidget from "scenes/widgets/AdvertWidget";
+import FriendListWidget from "scenes/widgets/FriendListWidget";
 
 const HomePage = () => {
     const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -10,7 +16,7 @@ const HomePage = () => {
     return (
       <Box>
         {/* // Setting up some layout stuff */}
-        <Navbar />
+        <NavBar />
         <Box
           width="100%"
           padding="2rem 6%"
@@ -26,8 +32,8 @@ const HomePage = () => {
             flexBasis={isNonMobileScreens ? "42%" : undefined}
             mt={isNonMobileScreens ? undefined : "2rem"}
           >
-            {/* <MyPostWidget picturePath={picturePath} />
-            <PostsWidget userId={_id} /> */}
+            <MyPostWidget picturePath={picturePath} />
+            <PostsWidget userId={_id} />
           </Box>
 
           {/* Friends List / Advertisment will only show for desktop */}
