@@ -33,7 +33,7 @@ const PostWidget = ({
     const loggedInUserId = useSelector((state) => state.user._id);
 
     /*
-        This is how the object is going to look like 
+        This is how the object is going to look like
         You can see in server/models/Post.js
         likes = {
             "userId1" : true,
