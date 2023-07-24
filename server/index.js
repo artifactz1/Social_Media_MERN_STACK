@@ -8,7 +8,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
-import { users, posts } from "./data/index.js";
+// import { users, posts } from "./data/index.js";
 
 // Properly set the paths when we configure directories later on(path/fileURLToPath)
 import path from "path";

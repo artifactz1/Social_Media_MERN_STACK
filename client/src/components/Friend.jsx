@@ -25,7 +25,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   // Check if user is a friend
   // this will help to show user an icon to either add or remove
   const isFriend = friends.find((friend) => friend._id === friendId);
-
+  console.log("Friends", friends);
   // API call to allow use to add friend or not
   const patchFriend = async () => {
     const response = await fetch(
